@@ -2,6 +2,8 @@ import axios from 'axios';
 import { create } from 'zustand';
 import { useVideoStore } from './useVideoStore'; // Video store'u içe aktarıyoruz
 
+const BASE_URL =import.meta.env.VITE_APP_BACKEND_URL;
+
 export const useInterviewStore = create((set, get) => ({
   interview: null,
   questions: [],
@@ -76,7 +78,7 @@ export const useInterviewStore = create((set, get) => ({
   fetchInterview: async (uniqueId) => {
     set({ isLoading: true, error: null });
     try {
-      const initialResponse = await axios.get(`http://localhost:5000/api/application/apply/${uniqueId}`);
+      const initialResponse = await axios.get(`${BASE_URL}/api/application/apply/${uniqueId}`);
       const interviewDetails = initialResponse.data;
       const interviewId = interviewDetails?._id;
 
@@ -84,7 +86,7 @@ export const useInterviewStore = create((set, get) => ({
         throw new Error('Interview ID not found in response');
       }
 
-      const questionsResponse = await axios.get(`http://localhost:5000/api/interview/start/${interviewId}`);
+      const questionsResponse = await axios.get(`${BASE_URL}/api/interview/start/${interviewId}`);
       const questions = questionsResponse.data.questions || questionsResponse.data;
 
       if (!Array.isArray(questions) || questions.length === 0) {
@@ -126,7 +128,7 @@ export const useInterviewStore = create((set, get) => ({
         interviewId: interview._id, // Interview ID ekleniyor
       };
 
-      const response = await axios.post(`http://localhost:5000/api/application/appadd`, dataToSend, {
+      const response = await axios.post(`${BASE_URL}/api/application/appadd`, dataToSend, {
         headers: {
           'Content-Type': 'application/json',
         }
