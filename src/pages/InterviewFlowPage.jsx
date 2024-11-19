@@ -121,12 +121,22 @@ const InterviewFlowPage = ({ interview }) => {
           </div>
           {/* Skip ve Videoyu Yükle Butonları Sorular Bölümünün Altına */}
           <div className="flex justify-between mt-4">
-            <button className="bg-yellow-500 text-white py-2 px-4 rounded-md" onClick={nextQuestion}>
+            <button className={`py-2 px-4 rounded-md ${recordingStarted
+                ? "bg-yellow-500 text-white hover:bg-yellow-600 cursor-pointer"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              }`}
+              onClick={nextQuestion}
+              disabled={!recordingStarted} // Kayıt başlamadan devre dışı
+            >
               Skip
             </button>
             <button
               onClick={handleUpload}
-              className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700 cursor-pointer"
+              className={`py-2 px-4 rounded-md ${recordingStarted
+                  ? "bg-blue-500 text-white hover:bg-blue-700 cursor-pointer"
+                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                }`}
+              disabled={!recordingStarted} // Kayıt başlamadan devre dışı
             >
               Videoyu Yükle
             </button>
