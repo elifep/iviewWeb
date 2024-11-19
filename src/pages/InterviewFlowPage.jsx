@@ -6,7 +6,20 @@ import Timer from '../components/Timer';
 import VideoRecorder from './VideoRecorder';
 import { useNavigate } from 'react-router-dom'; // Yönlendirme için
 
+const LoadingScreen = () => {
+  return (
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75 z-50">
+      <div className="flex flex-col items-center space-y-4">
+        <div className="w-16 h-16 border-4 border-teal-400 border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-white text-lg font-semibold">Yükleniyor...</p>
+      </div>
+    </div>
+  );
+};
+
 const InterviewFlowPage = ({ interview }) => {
+  const [isLoading, setIsLoading] = useState(false); // Yüklenme durumunu takip ediyoruz
+
   const {
     currentQuestionIndex,
     nextQuestion,
@@ -49,6 +62,8 @@ const InterviewFlowPage = ({ interview }) => {
   };
   const handleUpload = async () => {
     console.log("Videoyu Yükle butonuna tıklandı");
+    setIsLoading(true); // Yükleniyor durumunu başlat
+
     try {
       setRecordingStarted(false); // Kaydı durdur
       await new Promise((resolve) => setTimeout(resolve, 1000)); // Kaydın durması için bekle
@@ -58,6 +73,8 @@ const InterviewFlowPage = ({ interview }) => {
       navigate("/success-page"); // Yönlendirme yap
     } catch (error) {
       console.error("Video yüklenemedi:", error);
+    } finally {
+      setIsLoading(false); // Yükleniyor durumunu bitir
     }
   };
 
@@ -86,22 +103,22 @@ const InterviewFlowPage = ({ interview }) => {
       <div className="w-full max-w-7xl mx-auto mt-4 bg-white shadow-lg rounded-lg p-4 flex flex-col md:flex-row md:space-x-4">
         {/* Sorular Bölümü ve Zamanlayıcı */}
         <div className="w-full md:w-1/3 p-4 bg-gray-100 rounded-lg flex flex-col justify-between">
-        <div className="flex flex-col items-center mb-6"> {/* Başlık ve Timer daha yakın */}
-  {/* Zamanlayıcı */}
-  <Timer
-    time={timeRemaining}
-    label="Minutes Remaining"
-    className="ml-2 text-sm mb-2" // Zamanlayıcının altına biraz boşluk ekleyelim
-  />
-  {/* Sorular Başlığı */}
-  <h2 className="text-2xl font-bold text-teal-900 mt-2">Sorular</h2> 
-</div>
+          <div className="flex flex-col items-center mb-6"> {/* Başlık ve Timer daha yakın */}
+            {/* Zamanlayıcı */}
+            <Timer
+              time={timeRemaining}
+              label="Minutes Remaining"
+              className="ml-2 text-sm mb-2" // Zamanlayıcının altına biraz boşluk ekleyelim
+            />
+            {/* Sorular Başlığı */}
+            <h2 className="text-2xl font-bold text-teal-900 mt-2">Sorular</h2>
+          </div>
 
-<div className="mt-6"> {/* Sorunun metni başlığa biraz daha mesafeli */}
-  <h3 className="text-lg font-semibold text-teal-900 mb-4">
-    Soru {currentQuestionIndex + 1}: {(interview.questions[currentQuestionIndex])?.questionText || "No question available"}
-  </h3>
-</div>
+          <div className="mt-6"> {/* Sorunun metni başlığa biraz daha mesafeli */}
+            <h3 className="text-lg font-semibold text-teal-900 mb-4">
+              Soru {currentQuestionIndex + 1}: {(interview.questions[currentQuestionIndex])?.questionText || "No question available"}
+            </h3>
+          </div>
           {/* Skip ve Videoyu Yükle Butonları Sorular Bölümünün Altına */}
           <div className="flex justify-between mt-4">
             <button className="bg-yellow-500 text-white py-2 px-4 rounded-md" onClick={nextQuestion}>
@@ -114,6 +131,7 @@ const InterviewFlowPage = ({ interview }) => {
               Videoyu Yükle
             </button>
           </div>
+          {isLoading && <LoadingScreen />} {/* Yükleniyor ekranını göster */}
           {uploadSuccess && (
             <div className="mt-4 text-green-600 font-bold">
               Video başarıyla yüklendi!
