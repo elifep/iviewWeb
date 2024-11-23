@@ -1,8 +1,9 @@
-# React + Vite
+# İnterview WEB
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Mülakata girecek olan aday gelen link ile bu sayfaya erişir.
 
-Currently, two official plugins are available:
+- Öncelikle Kişisel Bilgi Formunu Zorunlu olarak doldurur. Kamera, Mikrofon gibi gereçlerin kontrolü sağlanır.
+- formu submit edince mülakat ekranı gelir üst tarafta ilerleme çubuğu soru sayısına göre yüzde kaç ilerlediğini gösterir.
+- kaydı başlat butonuna tıkladıktan sonra süre geri akar ve mülakat başlamış olur bu sırada skip ve videoyu yükle butonları aktif hale geçer. soruları sırayla cevaplayıp ilerledikce ve süre yettiğince mülakatı tamamlar ve videoyu yükle bitir dediği anda yükleniyor uyarısı ile biraz bekledikten sonra Mülakat Başarı İle Tamamlanmıştır bilgilendirmesi ile mülakat tamamen sonlanır.
+- kaydedilen adayın video mülakatı İnterview Admin Page sayfasına otomatik düşer ve admin yani İnsan Kaynakları Uzmanı videoyu izleyip aday hakkında notunu alıp onay ya da red verir ve süreç tamamlanır.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
